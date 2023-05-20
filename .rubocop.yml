@@ -1,2 +1,6 @@
 inherit_gem:
   caliber: config/all.yml
+
+Metrics/ParameterLists:
+  Exclude:
+    - "lib/htmx/headers/request.rb"
