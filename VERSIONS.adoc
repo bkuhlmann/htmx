@@ -2,4 +2,8 @@
 
 == 0.0.0 (2023-05-20)
 
-* Added initial implementation.
+* Added prefixer - Brooke Kuhlmann
+* Added project skeleton - Brooke Kuhlmann
+* Added request header - Brooke Kuhlmann
+* Added response header - Brooke Kuhlmann
+* Added root error - Brooke Kuhlmann
