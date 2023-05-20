@@ -9,4 +9,5 @@ end
 
 # Main namespace.
 module HTMX
+  def self.[](...) = Prefixer.new.call(...)
 end
