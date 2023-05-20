@@ -4,3 +4,4 @@ inherit_gem:
 Metrics/ParameterLists:
   Exclude:
     - "lib/htmx/headers/request.rb"
+    - "lib/htmx/headers/response.rb"
