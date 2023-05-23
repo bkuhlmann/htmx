@@ -3,13 +3,13 @@
 require "refinements/arrays"
 
 module HTMX
-  # Prefixes HTML element attributes for proper consumption by HTMX JavaScript library.
+  # Prefixes HTML element attributes for proper consumption by the HTMX JavaScript library.
   class Prefixer
     using Refinements::Arrays
 
-    PREFIXES = %w[hx data-hx].freeze
+    ALLOWED = %w[hx data-hx].freeze
 
-    def initialize default = "hx", allowed: PREFIXES
+    def initialize default = "hx", allowed: ALLOWED
       @default = default
       @allowed = allowed
       validate
