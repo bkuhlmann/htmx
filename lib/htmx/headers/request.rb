@@ -25,7 +25,7 @@ module HTMX
       :trigger
     ) do
       def self.for(key_map: REQUEST_KEY_MAP, **attributes)
-        new(**attributes.slice(*key_map.keys).transform_keys(key_map))
+        new(**attributes.slice(*key_map.keys).transform_keys!(key_map))
       end
 
       def initialize boosted: nil,
