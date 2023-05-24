@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |spec|
   spec.name = "htmx"
-  spec.version = "0.0.0"
+  spec.version = "0.1.0"
   spec.authors = ["Brooke Kuhlmann"]
   spec.email = ["brooke@alchemists.io"]
   spec.homepage = "https://alchemists.io/projects/htmx"
-  spec.summary = "Augmenter, enhancer, and companion to the HTMX JavaScript library."
+  spec.summary = "An augmenter and companion to the HTMX JavaScript library."
   spec.license = "Hippocratic-2.1"
 
   spec.metadata = {

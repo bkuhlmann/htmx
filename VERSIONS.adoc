@@ -1,5 +1,11 @@
 = Versions
 
+== 0.1.0 (2023-05-24)
+
+* Fixed module method to cache prefixer instance - Brooke Kuhlmann
+* Fixed request and response headers to be more performant - Brooke Kuhlmann
+* Updated prefixer allowed constant - Brooke Kuhlmann
+
 == 0.0.0 (2023-05-20)
 
 * Added prefixer - Brooke Kuhlmann

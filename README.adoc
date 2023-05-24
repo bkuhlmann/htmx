@@ -13,11 +13,11 @@
 
 A haiku from the {htmx_link} team:
 
-____
+....
 javascript fatigue:
 longing for a hypertext
 already in hand
-____
+....
 
 ...and from {hypermedia_systems_link}:
 
@@ -26,7 +26,7 @@ The goal of [HTMX] is not less JavaScript, but less code, more readable and hype
 ____
 
 
-This gem provides native Ruby support for the {htmx_link} JavaScript library so you can build sophisticated web applications using pure Hypermedia REST APIs while avoiding the unnecessary bloat and complexity common with JavaScript frameworks by building upon the original foundations of Hypermedia REST APIs. Even better, you can build rich web applications with no additional JavaScript!
+This gem provides native Ruby support for the {htmx_link} JavaScript library so you can build sophisticated web applications using pure Hypermedia REST APIs while avoiding unnecessary bloat and complexity common with the JavaScript ecosystem. By building upon the original foundations of Hypermedia REST APIs, you can build rich web applications with no additional JavaScript!
 
 At the moment, the functionality of this gem is still in the early stages of development but the goal of this gem is to aid with the development of {htmx_link} applications.
 
@@ -42,8 +42,8 @@ toc::[]
 
 == Requirements
 
+. A strong understanding of {hypermedia_systems_link}.
 . {htmx_link}.
-. A strong understanding of {hypermedia_systems_link} and Hypermedia REST APIs in general.
 . link:https://www.ruby-lang.org[Ruby].
 
 == Setup
@@ -161,7 +161,7 @@ The request object allows you to obtain an immutable {data_link} object to inter
 
 [source,ruby]
 ----
-request = HTMX::Headers::Request.new
+HTMX::Headers::Request.new
 
 # <data HTMX::Headers::Request boosted=nil,
 #                              current_url=nil,
@@ -178,7 +178,7 @@ Notice you get a {data_link} instance where all members have the `HX-` prefix re
 
 [source,ruby]
 ----
-request = HTMX::Headers::Request.for request.headers
+HTMX::Headers::Request.for request.env
 
 # <data HTMX::Headers::Request boosted="true",
 #                              current_url="/demo",
@@ -199,7 +199,7 @@ The response object allows you to obtain an immutable {data_link} object to inte
 
 [source,ruby]
 ----
-response = HTMX::Headers::Response.new
+HTMX::Headers::Response.new
 
 # <data HTMX::Headers::Response location=nil,
 #                               push_url=nil,
@@ -218,7 +218,7 @@ Notice you get a {data_link} instance where all members have the `HX-` prefix re
 
 [source,ruby]
 ----
-response = HTMX::Headers::Response.for response.headers
+HTMX::Headers::Response.for response.headers
 
 # <data HTMX::Headers::Response location="/",
 #                               push_url="/demo",
@@ -234,6 +234,10 @@ response = HTMX::Headers::Response.for response.headers
 ----
 
 With the above, the `.for` method plucks out only the HTMX specific headers which may or may not have values. Extra header keys, which are not specific to {htmx_link}, are ignored.
+
+=== Errors
+
+As you've probably picked up by now, any/all errors issued by this gem will be an instance of the `HTMX::Error` class which inherits from `StandardError`. you can use this classification to catch and deal with these errors in your own implementation as desired.
 
 == Development
 
