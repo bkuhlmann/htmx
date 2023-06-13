@@ -1,5 +1,9 @@
 = Versions
 
+== 0.2.0 (2023-06-13)
+
+* Updated to Refinements 11.0.0 - Brooke Kuhlmann
+
 == 0.1.0 (2023-05-24)
 
 * Fixed module method to cache prefixer instance - Brooke Kuhlmann
