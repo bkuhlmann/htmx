@@ -24,9 +24,7 @@ module HTMX
     def validate
       return true if allowed.include? default
 
-      usage = allowed.map(&:inspect).to_sentence conjunction: "or"
-
-      fail Error, "Invalid prefix: #{default.inspect}. Use: #{usage}."
+      fail Error, %(Invalid prefix: #{default.inspect}. Use: #{allowed.to_usage "or"}.)
     end
   end
 end
