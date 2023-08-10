@@ -37,6 +37,11 @@ RSpec.describe HTMX::Prefixer do
       expect(attributes).to eq("hx-get" => "/tasks", "hx-trigger" => "click")
     end
 
+    it "answers prefixed attributes with dashes" do
+      attributes = prefixer.call "push_url" => true, swap_oob: true
+      expect(attributes).to eq("hx-push-url" => true, "hx-swap-oob" => true)
+    end
+
     it "answers empty hash with no arguments" do
       expect(prefixer.call).to eq({})
     end

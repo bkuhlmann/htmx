@@ -15,7 +15,7 @@ module HTMX
       validate
     end
 
-    def call(**attributes) = attributes.transform_keys! { |key| "#{default}-#{key}" }
+    def call(**attributes) = attributes.transform_keys! { |key| "#{default}-#{key}".tr "_", "-" }
 
     private
 
