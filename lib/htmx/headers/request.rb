@@ -3,14 +3,14 @@
 module HTMX
   module Headers
     REQUEST_KEY_MAP = {
-      "HX-Boosted" => :boosted,
-      "HX-Current-URL" => :current_url,
-      "HX-History-Restore-Request" => :history_restore_request,
-      "HX-Prompt" => :prompt,
-      "HX-Request" => :request,
-      "HX-Target" => :target,
-      "HX-Trigger-Name" => :trigger_name,
-      "HX-Trigger" => :trigger
+      "HTTP_HX_BOOSTED" => :boosted,
+      "HTTP_HX_CURRENT_URL" => :current_url,
+      "HTTP_HX_HISTORY_RESTORE_REQUEST" => :history_restore_request,
+      "HTTP_HX_PROMPT" => :prompt,
+      "HTTP_HX_REQUEST" => :request,
+      "HTTP_HX_TARGET" => :target,
+      "HTTP_HX_TRIGGER_NAME" => :trigger_name,
+      "HTTP_HX_TRIGGER" => :trigger
     }.freeze
 
     # Models the supported HTMX request headers.

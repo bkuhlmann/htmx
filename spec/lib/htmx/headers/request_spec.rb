@@ -7,14 +7,14 @@ RSpec.describe HTMX::Headers::Request do
 
   describe ".for" do
     it "answers all supported headers" do
-      request = described_class.for "HX-Boosted" => "true",
-                                    "HX-Current-URL" => "/test",
-                                    "HX-History-Restore-Request" => "false",
-                                    "HX-Prompt" => "Yes",
-                                    "HX-Request" => "true",
-                                    "HX-Target" => "test",
-                                    "HX-Trigger-Name" => "save",
-                                    "HX-Trigger" => "test"
+      request = described_class.for "HTTP_HX_BOOSTED" => "true",
+                                    "HTTP_HX_CURRENT_URL" => "/test",
+                                    "HTTP_HX_HISTORY_RESTORE_REQUEST" => "false",
+                                    "HTTP_HX_PROMPT" => "Yes",
+                                    "HTTP_HX_REQUEST" => "true",
+                                    "HTTP_HX_TARGET" => "test",
+                                    "HTTP_HX_TRIGGER_NAME" => "save",
+                                    "HTTP_HX_TRIGGER" => "test"
       expect(request).to eq(
         described_class[
           boosted: "true",
@@ -30,7 +30,9 @@ RSpec.describe HTMX::Headers::Request do
     end
 
     it "ignores unsupported headers" do
-      response = described_class.for "HX-Boosted" => "true", "HX-Bad" => "danger", "other" => "else"
+      response = described_class.for "HTTP_HX_BOOSTED" => "true",
+                                     "HTTP_HX_BAD" => "danger",
+                                     "other" => "else"
       expect(response).to eq(described_class[boosted: "true"])
     end
   end
