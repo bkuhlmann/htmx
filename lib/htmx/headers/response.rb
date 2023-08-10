@@ -32,6 +32,10 @@ module HTMX
         new(**attributes.slice(*key_map.keys).transform_keys!(key_map))
       end
 
+      def self.key_for(header, key_map: RESPONSE_KEY_MAP) = key_map.fetch header
+
+      def self.header_for(key, key_map: RESPONSE_KEY_MAP.invert) = key_map.fetch key
+
       def initialize location: nil,
                      push_url: nil,
                      redirect: nil,

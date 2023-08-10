@@ -37,6 +37,28 @@ RSpec.describe HTMX::Headers::Request do
     end
   end
 
+  describe ".key_for" do
+    it "answers key for header" do
+      expect(described_class.key_for("HTTP_HX_TRIGGER")).to eq(:trigger)
+    end
+
+    it "fails with invalid key" do
+      expectation = proc { described_class.key_for "BOGUS" }
+      expect(&expectation).to raise_error(KeyError, /BOGUS/)
+    end
+  end
+
+  describe ".header_for" do
+    it "answers header for key" do
+      expect(described_class.header_for(:trigger)).to eq("HTTP_HX_TRIGGER")
+    end
+
+    it "fails with invalid key" do
+      expectation = proc { described_class.key_for :bogus }
+      expect(&expectation).to raise_error(KeyError, /:bogus/)
+    end
+  end
+
   describe "#initialize" do
     it "answers default attributes" do
       expect(request).to eq(

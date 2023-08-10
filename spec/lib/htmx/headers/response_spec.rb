@@ -40,6 +40,28 @@ RSpec.describe HTMX::Headers::Response do
     end
   end
 
+  describe ".key_for" do
+    it "answers key for header" do
+      expect(described_class.key_for("HX-Redirect")).to eq(:redirect)
+    end
+
+    it "fails with invalid key" do
+      expectation = proc { described_class.key_for "Bogus" }
+      expect(&expectation).to raise_error(KeyError, /Bogus/)
+    end
+  end
+
+  describe ".header_for" do
+    it "answers header for key" do
+      expect(described_class.header_for(:redirect)).to eq("HX-Redirect")
+    end
+
+    it "fails with invalid key" do
+      expectation = proc { described_class.key_for :bogus }
+      expect(&expectation).to raise_error(KeyError, /:bogus/)
+    end
+  end
+
   describe "#initialize" do
     it "answers default attributes" do
       expect(response).to eq(
