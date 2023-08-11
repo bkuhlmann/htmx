@@ -84,7 +84,7 @@ One of the first tasks you'll want to tackle, when working with the {htmx_link} 
 
 [source,ruby]
 ----
-html.button(
+tag.button(
   "Delete",
   class: "button decline",
   type: "submit",
@@ -111,7 +111,7 @@ As shown above, building HTMX attributes takes minimal effort but if you'd prefe
 ----
 prefixer = HTMX::Prefixer.new "data-hx"
 
-html.button(
+tag.button(
   "Delete",
   class: "button decline",
   type: "submit",
@@ -151,13 +151,21 @@ HTMX::Prefixer.new "bogus"
 # Invalid prefix: "bogus". Use: "hx" or "data-hx". (HTMX::Error)
 ----
 
+Some {htmx_link} attributes use dashes. For those situations, you can use strings for keys or underscored symbols to produce the correct HTMX syntax. Here's and example using both a string and symbol for keys:
+
+[source,ruby]
+----
+HTMX["swap-oob" => true, push_url: "/demo/123"]
+# {"hx-swap-oob"=>true, "hx-push-url"=>"/demo/123"}
+----
+
 === HTTP Headers
 
 When working with HTTP requests/responses, especially HTTP headers, there are a few objects that can parse and make the data easier to work with. These objects are named accordingly: request and response. Here's how to use them.
 
 ==== Request
 
-The request object allows you to obtain an immutable {data_link} object to interact with when parsing link:https://htmx.org/reference/#request_headers[HTMX HTTP request headers]. Example:
+The request object allows you to obtain a {data_link} object to interact with when parsing link:https://htmx.org/reference/#request_headers[HTMX HTTP request headers]. Example:
 
 [source,ruby]
 ----
@@ -195,7 +203,7 @@ With the above, the `.for` method plucks out only the HTMX specific headers whic
 
 ==== Response
 
-The response object allows you to obtain an immutable {data_link} object to interact with when parsing link:https://htmx.org/reference/#response_headers[HTMX HTTP response headers]. Example:
+The response object allows you to obtain a {data_link} object to interact with when parsing link:https://htmx.org/reference/#response_headers[HTMX HTTP response headers]. Example:
 
 [source,ruby]
 ----

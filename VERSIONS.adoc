@@ -1,5 +1,13 @@
 = Versions
 
+== 0.3.0 (2023-08-10)
+
+* Fixed RuboCop Packaging/BundlerSetupInTests issues - Brooke Kuhlmann
+* Fixed prefixer to handle underscores as dashes - Brooke Kuhlmann
+* Fixed request header key capitalization - Brooke Kuhlmann
+* Added key and header finders for request and response headers - Brooke Kuhlmann
+* Updated Rake RSpec task configuration to not be verbose - Brooke Kuhlmann
+
 == 0.2.1 (2023-06-19)
 
 * Updated to Caliber 0.35.0 - Brooke Kuhlmann
