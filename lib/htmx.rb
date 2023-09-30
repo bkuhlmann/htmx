@@ -11,6 +11,8 @@ end
 
 # Main namespace.
 module HTMX
+  def self.loader(registry = Zeitwerk::Registry) = registry.loader_for __FILE__
+
   def self.[](...)
     @prefixer ||= Prefixer.new
     @prefixer.call(...)
