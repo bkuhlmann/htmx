@@ -1,5 +1,12 @@
 = Versions
 
+== 0.4.1 (2023-11-15)
+
+* Fixed gem loader to find by tag and cache instance - Brooke Kuhlmann
+* Updated Gemfile to support next minor Ruby version - Brooke Kuhlmann
+* Updated to Caliber 0.42.0 - Brooke Kuhlmann
+* Refactored Gemfile to use ruby file syntax - Brooke Kuhlmann
+
 == 0.4.0 (2023-09-30)
 
 * Fixed Zeitwerk loader - Brooke Kuhlmann
