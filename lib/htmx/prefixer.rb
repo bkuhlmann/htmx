@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require "refinements/arrays"
+require "refinements/array"
 
 module HTMX
   # Prefixes HTML element attributes for proper consumption by the HTMX JavaScript library.
   class Prefixer
-    using Refinements::Arrays
+    using Refinements::Array
 
     ALLOWED = %w[hx data-hx].freeze
 
