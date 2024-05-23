@@ -53,7 +53,7 @@ To install _with_ security, run:
 [source,bash]
 ----
 # 💡 Skip this line if you already have the public certificate installed.
-gem cert --add <(curl --compressed --location https://alchemists.io/projects/htmx/gems.pem)
+gem cert --add <(curl --compressed --location https://alchemists.io/gems.pem)
 gem install htmx --trust-policy HighSecurity
 ----
 
