@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.metadata = {
     "bug_tracker_uri" => "https://github.com/bkuhlmann/htmx/issues",
     "changelog_uri" => "https://alchemists.io/projects/htmx/versions",
-    "documentation_uri" => "https://alchemists.io/projects/htmx",
+    "homepage_uri" => "https://alchemists.io/projects/htmx",
     "funding_uri" => "https://github.com/sponsors/bkuhlmann",
     "label" => "HTMX",
     "rubygems_mfa_required" => "true",
