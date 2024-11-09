@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name = "htmx"
-  spec.version = "1.8.0"
+  spec.version = "1.9.0"
   spec.authors = ["Brooke Kuhlmann"]
   spec.email = ["brooke@alchemists.io"]
   spec.homepage = "https://alchemists.io/projects/htmx"
