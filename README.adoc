@@ -2,7 +2,7 @@
 :toclevels: 5
 :figure-caption!:
 
-:htmx_link: link:https://htmx.org[HTMX]
+:htmx_link: link:https://htmx.org[htmx]
 :hypermedia_systems_link: link:https://hypermedia.systems[Hypermedia Systems]
 :hanami_link: link:https://hanamirb.org[Hanami]
 :roda_link: link:http://roda.jeremyevans.net[Roda]
@@ -22,13 +22,11 @@ already in hand
 ...and from {hypermedia_systems_link}:
 
 ____
-The goal of [HTMX] is not less JavaScript, but less code, more readable and hypermedia-friendly code.
+The goal of [htmx] is not less JavaScript, but less code, more readable and hypermedia-friendly code.
 ____
 
 
 This gem provides native Ruby support for the {htmx_link} JavaScript library so you can build sophisticated web applications using pure Hypermedia REST APIs while avoiding unnecessary bloat and complexity common with the JavaScript ecosystem. By building upon the original foundations of Hypermedia REST APIs, you can build rich web applications with no additional JavaScript!
-
-At the moment, the functionality of this gem is still in the early stages of development but the goal of this gem is to aid with the development of {htmx_link} applications.
 
 💡 This is used with the {hanamismith_link} gem when building {hanami_link} applications. Even better, you can play with the link:https://github.com/bkuhlmann/hemo[Hanami demo application] to learn more. Enjoy!
 
@@ -80,7 +78,7 @@ require "htmx"
 
 == Usage
 
-One of the first tasks you'll want to tackle, when working with the {htmx_link} library, is building HTMX specific HTML attributes. This can be accomplished by using the `.[]` method. For example, when implementing a {hanami_link} view part, you could use the following:
+One of the first tasks you'll want to tackle, when working with the {htmx_link} library, is building htmx specific HTML attributes. This can be accomplished by using the `.[]` method. For example, when implementing a {hanami_link} view part, you could use the following:
 
 [source,ruby]
 ----
@@ -101,11 +99,11 @@ The above would produce the following:
 </button>
 ----
 
-Notice the appropriate HTMX `hx-target` and `hx-delete` attributes are built which are compatible with the {htmx_link} library while not having to manually prefix each one of these attributes with the `hx-` prefix. You can even use symbols, strings, or a mix of both as well.
+Notice the appropriate htmx `hx-target` and `hx-delete` attributes are built which are compatible with the {htmx_link} library while not having to manually prefix each one of these attributes with the `hx-` prefix. You can use symbols, strings, or a mix of both as well.
 
 === HTML Attribute Prefixes
 
-As shown above, building HTMX attributes takes minimal effort but if you'd prefer the HTML `data-` prefix, which the {htmx_link} library supports, you can customize by using the following:
+As shown above, building htmx attributes takes minimal effort but if you'd prefer the HTML `data-` prefix, which the {htmx_link} library supports, you can customize by using the following:
 
 [source,ruby]
 ----
@@ -132,7 +130,7 @@ This would then produce the following HTML code:
 </button>
 ----
 
-As you can see, the `data-hx-target` and `data-hx-delete` keys are used. These are definitely more verbose than the `hx-` keys. By the way, the `HTMX::Prefixer` is called when using the HTMX `.[]` as shown earlier. This means the following are equivalent:
+As you can see, the `data-hx-target` and `data-hx-delete` keys are used. These are definitely more verbose than the `hx-` keys. By the way, the `HTMX::Prefixer` is called when using the htmx `.[]` as shown earlier. This means the following are equivalent:
 
 [source,ruby]
 ----
@@ -151,7 +149,7 @@ HTMX::Prefixer.new "bogus"
 # Invalid prefix: "bogus". Use: "hx" or "data-hx". (HTMX::Error)
 ----
 
-Some {htmx_link} attributes use dashes. For those situations, you can use strings for keys or underscored symbols to produce the correct HTMX syntax. Here's and example using both a string and symbol for keys:
+Some {htmx_link} attributes use dashes. For those situations, you can use strings for keys or underscored symbols to produce the correct htmx syntax. Here's an example using both a string and symbol for keys:
 
 [source,ruby]
 ----
@@ -161,15 +159,15 @@ HTMX["swap-oob" => true, push_url: "/demo/123"]
 
 === HTTP Headers
 
-When working with HTTP requests/responses, especially HTTP headers, there are a few objects that can parse and make the data easier to work with. These objects are named accordingly: request and response. Here's how to use them.
+When working with HTTP requests/responses, especially HTTP headers, there are a couple of methods that can parse and make the data easier to work with. Here's how to use them.
 
-==== Request
+==== Requests
 
-The request object allows you to obtain a {data_link} object to interact with when parsing link:https://htmx.org/reference/#request_headers[HTMX HTTP request headers]. Example:
+The request object allows you to obtain a {data_link} object to interact with when parsing link:https://htmx.org/reference/#request_headers[htmx HTTP request headers]. Example:
 
 [source,ruby]
 ----
-HTMX::Headers::Request.new
+HTMX.request
 
 # <data HTMX::Headers::Request boosted=nil,
 #                              current_url=nil,
@@ -186,11 +184,18 @@ Notice you get a {data_link} instance where all members have the `HX-` prefix re
 
 [source,ruby]
 ----
-HTMX::Headers::Request.for request.env
+HTMX.request "HTTP_HX_BOOSTED" => "true",
+             "HTTP_HX_CURRENT_URL" => "/demo",
+             "HTTP_HX_HISTORY_RESTORE_REQUEST" => "false",
+             "HTTP_HX_PROMPT" => "Yes",
+             "HTTP_HX_REQUEST" => "true",
+             "HTTP_HX_TARGET" => "demo",
+             "HTTP_HX_TRIGGER_NAME" => "save",
+             "HTTP_HX_TRIGGER" => "demo"
 
 # <data HTMX::Headers::Request boosted="true",
 #                              current_url="/demo",
-#                              history_restore_request=nil,
+#                              history_restore_request="false",
 #                              prompt="Yes",
 #                              request="true",
 #                              target="demo",
@@ -199,15 +204,60 @@ HTMX::Headers::Request.for request.env
 # >
 ----
 
-With the above, the `.for` method plucks out only the HTMX specific headers which may or may not have values. Extra header keys, which are not specific to {htmx_link}, are ignored.
+As you can see, this method only plucks out the htmx specific headers which may or may not have values. Extra header keys, which are not specific to {htmx_link}, are ignored.
 
-==== Response
-
-The response object allows you to obtain a {data_link} object to interact with when parsing link:https://htmx.org/reference/#response_headers[HTMX HTTP response headers]. Example:
+As an added convenience, you can use predicate methods for boolean values. Example:
 
 [source,ruby]
 ----
-HTMX::Headers::Response.new
+headers = HTMX.request "HTTP_HX_BOOSTED" => "true",
+                       "HTTP_HX_CURRENT_URL" => "/demo",
+                       "HTTP_HX_HISTORY_RESTORE_REQUEST" => "false",
+                       "HTTP_HX_PROMPT" => "Yes",
+                       "HTTP_HX_REQUEST" => "true",
+                       "HTTP_HX_TARGET" => "demo",
+                       "HTTP_HX_TRIGGER_NAME" => "save",
+                       "HTTP_HX_TRIGGER" => "demo"
+
+headers.boosted?                  # true
+headers.confirmed?                # true
+headers.history_restore_request?  # false
+headers.request?                  # true
+----
+
+Use of `#confirmed?` is the only unique predicate method since it answers a boolean based on the truthiness of the `HTTP_HX_PROMPT` header. For further details, see `String#truthy?` as provided by the link:https://alchemists.io/projects/refinements#_truthy[Refinements] gem.
+
+Due to `HTML.request` delegating to the `HTMX::Headers::Request`, this means you can use the object directly. Specifically, you can obtain the record, key, or header depending on your needs. Example:
+
+[source,ruby]
+----
+HTMX::Headers::Request.for(**headers)                 # Identical to `HTMX.request`.
+HTMX::Headers::Request.key_for "HTTP_HX_CURRENT_URL"  # :current_url
+HTMX::Headers::Request.header_for :current_url        # "HTTP_HX_CURRENT_URL"
+----
+
+Should you not want to use `HTMX::Headers::Request`, you can use the request predicate methods instead. Example:
+
+[source,ruby]
+----
+headers = {}
+
+HTMX.request! headers, boosted: true, prompt: "Yes"
+# {"HTTP_HX_BOOSTED" => true, "HTTP_HX_PROMPT" => "Yes"}
+
+HTMX.request? headers, :prompt, "Yes"  # true
+HTMX.request? headers, :prompt, "On"   # false
+----
+
+💡 `HTMX.request!` is designed to mutate your original headers. Unknown attributes are merged as is.
+
+==== Responses
+
+The response object allows you to obtain a {data_link} object to interact with when parsing link:https://htmx.org/reference/#response_headers[htmx HTTP response headers]. Example:
+
+[source,ruby]
+----
+HTMX.response
 
 # <data HTMX::Headers::Response location=nil,
 #                               push_url=nil,
@@ -226,7 +276,16 @@ Notice you get a {data_link} instance where all members have the `HX-` prefix re
 
 [source,ruby]
 ----
-HTMX::Headers::Response.for response.headers
+HTMX.response "HX-Location" => "/",
+              "HX-Push-Url" => "/demo",
+              "HX-Redirect" => "/demo",
+              "HX-Refresh" => "true",
+              "HX-Replace-Url" => "/demo",
+              "HX-Reswap" => "none",
+              "HX-Retarget" => ".demo",
+              "HX-Trigger" => "demo",
+              "HX-Trigger-After-Settle" => "demo",
+              "HX-Trigger-After-Swap" => "demo"
 
 # <data HTMX::Headers::Response location="/",
 #                               push_url="/demo",
@@ -241,11 +300,44 @@ HTMX::Headers::Response.for response.headers
 # >
 ----
 
-With the above, the `.for` method plucks out only the HTMX specific headers which may or may not have values. Extra header keys, which are not specific to {htmx_link}, are ignored.
+As you can see, this method only plucks out the htmx specific headers which may or may not have values. Extra header keys, which are not specific to {htmx_link}, are ignored.
+
+There is also a refresh predicate method that'll answer a boolean for convenience. Example:
+
+[source,ruby]
+----
+headers = HTMX.response "HX-Refresh" => "true"
+
+headers.refresh? # true
+----
+
+Due to `HTML.response` delegating to the `HTMX::Headers::Response`, this means you can use the object directly. Specifically, you can obtain the record, key, or header depending on your needs. Example:
+
+[source,ruby]
+----
+HTMX::Headers::Response.for(**headers)         # Identical to `HTMX.response`.
+HTMX::Headers::Response.key_for "HX-Location"  # :location
+HTMX::Headers::Response.header_for :location   # "HX-Location"
+----
+
+Should you not want to use `HTMX::Headers::Response`, you can use the response predicate methods instead. Example:
+
+[source,ruby]
+----
+headers = {}
+
+HTMX.response! headers, location: "/", push_url: "/test"
+# {"HX-Location" => "/", "HX-Push-Url" => "/test"}
+
+HTMX.response? headers, :push_url, "/test"   # true
+HTMX.response? headers, :push_url, "/other"  # false
+----
+
+💡 `HTMX.response!` is designed to mutate your original headers. Unknown attributes are merged as is.
 
 === Errors
 
-As you've probably picked up by now, any/all errors issued by this gem will be an instance of the `HTMX::Error` class which inherits from `StandardError`. you can use this classification to catch and deal with these errors in your own implementation as desired.
+Any/all errors issued by this gem will be an instance of the `HTMX::Error` class which inherits from `StandardError`. You can use this classification to catch and deal with these errors in your own implementation as desired.
 
 == Development
 
