@@ -48,6 +48,8 @@ module HTMX
                      trigger_after_swap: nil
         super
       end
+
+      def refresh? = refresh == "true"
     end
   end
 end

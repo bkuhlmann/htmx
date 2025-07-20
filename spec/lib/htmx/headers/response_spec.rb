@@ -80,4 +80,14 @@ RSpec.describe HTMX::Headers::Response do
       )
     end
   end
+
+  describe "#refresh?" do
+    it "answers true when enabled" do
+      expect(described_class[refresh: "true"].refresh?).to be(true)
+    end
+
+    it "answers false when disabled" do
+      expect(response.refresh?).to be(false)
+    end
+  end
 end
