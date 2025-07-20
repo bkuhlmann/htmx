@@ -19,4 +19,8 @@ module HTMX
     @prefixer ||= Prefixer.new
     @prefixer.call(...)
   end
+
+  def self.request(**) = Headers::Request.for(**)
+
+  def self.response(**) = Headers::Response.for(**)
 end

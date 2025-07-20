@@ -24,4 +24,18 @@ RSpec.describe HTMX do
       expect(described_class[]).to eq({})
     end
   end
+
+  describe ".request" do
+    it "answers request header data" do
+      result = described_class.request "HTTP_HX_BOOSTED" => "true", "HTTP_HX_PROMPT" => "Yes"
+      expect(result).to eq(HTMX::Headers::Request[boosted: "true", prompt: "Yes"])
+    end
+  end
+
+  describe ".response" do
+    it "answers response header data" do
+      result = described_class.response "HX-Redirect" => "/test", "HX-Reswap" => "none"
+      expect(result).to eq(HTMX::Headers::Response[redirect: "/test", reswap: "none"])
+    end
+  end
 end
