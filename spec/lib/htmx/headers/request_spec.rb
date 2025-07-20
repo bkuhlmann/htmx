@@ -75,4 +75,48 @@ RSpec.describe HTMX::Headers::Request do
       )
     end
   end
+
+  describe "#boosted?" do
+    it "answers true when enabled" do
+      expect(described_class[boosted: "true"].boosted?).to be(true)
+    end
+
+    it "answers false when disabled" do
+      expect(request.boosted?).to be(false)
+    end
+  end
+
+  describe "#confirmed?" do
+    it "answers true when prompt is truthy" do
+      expect(described_class[prompt: "Yes"].confirmed?).to be(true)
+    end
+
+    it "answers false when prompt is nil" do
+      expect(request.confirmed?).to be(false)
+    end
+
+    it "answers false when prompt is falsey" do
+      expect(described_class[prompt: "nope"].confirmed?).to be(false)
+    end
+  end
+
+  describe "#history_restore_request?" do
+    it "answers true when enabled" do
+      expect(described_class[history_restore_request: "true"].history_restore_request?).to be(true)
+    end
+
+    it "answers false when disabled" do
+      expect(request.history_restore_request?).to be(false)
+    end
+  end
+
+  describe "#request?" do
+    it "answers true when enabled" do
+      expect(described_class[request: "true"].request?).to be(true)
+    end
+
+    it "answers false when disabled" do
+      expect(request.request?).to be(false)
+    end
+  end
 end

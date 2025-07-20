@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "refinements/string"
+
 module HTMX
   module Headers
     REQUEST_KEY_MAP = {
@@ -24,6 +26,8 @@ module HTMX
       :trigger_name,
       :trigger
     ) do
+      using Refinements::String
+
       def self.for(key_map: REQUEST_KEY_MAP, **attributes)
         new(**attributes.slice(*key_map.keys).transform_keys!(key_map))
       end
@@ -42,6 +46,14 @@ module HTMX
                      trigger: nil
         super
       end
+
+      def boosted? = boosted == "true"
+
+      def confirmed? = prompt ? prompt.truthy? : false
+
+      def history_restore_request? = history_restore_request == "true"
+
+      def request? = request == "true"
     end
   end
 end
