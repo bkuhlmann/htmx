@@ -2,39 +2,15 @@
 
 module HTMX
   module Headers
-    RESPONSE_KEY_MAP = {
-      "HX-Location" => :location,
-      "HX-Push-Url" => :push_url,
-      "HX-Redirect" => :redirect,
-      "HX-Refresh" => :refresh,
-      "HX-Replace-Url" => :replace_url,
-      "HX-Reswap" => :reswap,
-      "HX-Retarget" => :retarget,
-      "HX-Trigger" => :trigger,
-      "HX-Trigger-After-Settle" => :trigger_after_settle,
-      "HX-Trigger-After-Swap" => :trigger_after_swap
-    }.freeze
-
     # Models the supported HTMX response headers.
-    Response = Data.define(
-      :location,
-      :push_url,
-      :redirect,
-      :refresh,
-      :replace_url,
-      :reswap,
-      :retarget,
-      :trigger,
-      :trigger_after_settle,
-      :trigger_after_swap
-    ) do
-      def self.for(key_map: RESPONSE_KEY_MAP, **attributes)
+    Response = Data.define(*RESPONSE_MAP.keys) do
+      def self.for(key_map: RESPONSE_MAP.invert, **attributes)
         new(**attributes.slice(*key_map.keys).transform_keys!(key_map))
       end
 
-      def self.key_for(header, key_map: RESPONSE_KEY_MAP) = key_map.fetch header
+      def self.key_for(header, key_map: RESPONSE_MAP.invert) = key_map.fetch header
 
-      def self.header_for(key, key_map: RESPONSE_KEY_MAP.invert) = key_map.fetch key
+      def self.header_for(key, key_map: RESPONSE_MAP) = key_map.fetch key
 
       def initialize location: nil,
                      push_url: nil,
