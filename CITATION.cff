@@ -2,9 +2,9 @@ cff-version: 1.2.0
 message: Please use the following metadata when citing this project in your work.
 title: HTMX
 abstract: An augmenter and companion to the HTMX JavaScript library.
-version: 2.3.0
+version: 2.4.0
 license: Hippocratic-2.1
-date-released: 2025-07-15
+date-released: 2025-08-01
 authors:
   - family-names: Kuhlmann
     given-names: Brooke
