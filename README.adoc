@@ -2,12 +2,13 @@
 :toclevels: 5
 :figure-caption!:
 
+:data_link: link:https://alchemists.io/articles/ruby_data[Data]
+:hanami_link: link:https://hanamirb.org[Hanami]
+:hanami_views_link: link:https://alchemists.io/articles/hanami_views[Hanami Views]
+:hanamismith_link: link:https://alchemists.io/projects/hanamismith[Hanamismith]
 :htmx_link: link:https://htmx.org[htmx]
 :hypermedia_systems_link: link:https://hypermedia.systems[Hypermedia Systems]
-:hanami_link: link:https://hanamirb.org[Hanami]
 :roda_link: link:http://roda.jeremyevans.net[Roda]
-:data_link: link:https://alchemists.io/articles/ruby_data[Data]
-:hanamismith_link: link:https://alchemists.io/projects/hanamismith[Hanamismith]
 
 = HTMX
 
@@ -28,7 +29,7 @@ ____
 
 This gem provides native Ruby support for the {htmx_link} JavaScript library so you can build sophisticated web applications using pure Hypermedia REST APIs while avoiding unnecessary bloat and complexity common with the JavaScript ecosystem. By building upon the original foundations of Hypermedia REST APIs, you can build rich web applications with no additional JavaScript!
 
-💡 This is used with the {hanamismith_link} gem when building {hanami_link} applications. Even better, you can play with the link:https://github.com/bkuhlmann/hemo[Hanami demo application] to learn more. Enjoy!
+💡 This is used with the {hanamismith_link} gem when building {hanami_link} applications.
 
 toc::[]
 
@@ -78,7 +79,7 @@ require "htmx"
 
 == Usage
 
-One of the first tasks you'll want to tackle, when working with the {htmx_link} library, is building htmx specific HTML attributes. This can be accomplished by using the `.[]` method. For example, when implementing a {hanami_link} view part, you could use the following:
+One of the first tasks to tackle, when working with the {htmx_link} library, is building htmx specific HTML attributes. This can be accomplished by using the `.[]` method. For example, when implementing a {hanami_views_link} part, you could use the following:
 
 [source,ruby]
 ----
@@ -117,7 +118,7 @@ tag.button(
 )
 ----
 
-This would then produce the following HTML code:
+This will produce the following HTML code:
 
 [source,html]
 ----
@@ -139,9 +140,7 @@ HTMX::Prefixer.new.call delete: "/tasks/1"
 HTMX::Prefixer.new("hx").call delete: "/tasks/1"
 ----
 
-All three of the above will produce the same output which means you'll most likely want to use the `.[]` method since it has the shortest syntax.
-
-If you attempt to use an unsupported prefix, you'll get an error:
+All three of the above will produce the same output which means you'll most likely want to use the `.[]` method since it has the shortest syntax. If you attempt to use an unsupported prefix, you'll get an error:
 
 [source,ruby]
 ----
