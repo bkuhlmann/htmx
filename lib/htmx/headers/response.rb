@@ -4,7 +4,7 @@ module HTMX
   module Headers
     # Models the supported HTMX response headers.
     Response = Data.define(*RESPONSE_MAP.keys) do
-      def self.for(key_map: RESPONSE_MAP.invert, **attributes)
+      def self.for key_map: RESPONSE_MAP.invert, **attributes
         new(**attributes.slice(*key_map.keys).transform_keys!(key_map))
       end
 

@@ -8,7 +8,7 @@ module HTMX
     Request = Data.define(*REQUEST_MAP.keys) do
       using Refinements::String
 
-      def self.for(key_map: REQUEST_MAP.invert, **attributes)
+      def self.for key_map: REQUEST_MAP.invert, **attributes
         new(**attributes.slice(*key_map.keys).transform_keys!(key_map))
       end
 

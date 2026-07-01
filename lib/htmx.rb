@@ -52,7 +52,7 @@ module HTMX
 
   def self.response(**) = Headers::Response.for(**)
 
-  def self.response!(headers, **attributes)
+  def self.response! headers, **attributes
     headers.merge! attributes.transform_keys!(RESPONSE_MAP)
   end
 
