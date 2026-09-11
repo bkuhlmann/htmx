@@ -19,17 +19,14 @@ module HTMX
       def initialize boosted: nil,
                      current_url: nil,
                      history_restore_request: nil,
-                     prompt: nil,
                      request: nil,
-                     target: nil,
-                     trigger_name: nil,
-                     trigger: nil
+                     request_type: nil,
+                     source: nil,
+                     target: nil
         super
       end
 
       def boosted? = boosted == "true"
-
-      def confirmed? = prompt ? prompt.truthy? : false
 
       def history_restore_request? = history_restore_request == "true"
 

@@ -10,21 +10,20 @@ RSpec.describe HTMX::Headers::Request do
       request = described_class.for "HTTP_HX_BOOSTED" => "true",
                                     "HTTP_HX_CURRENT_URL" => "/test",
                                     "HTTP_HX_HISTORY_RESTORE_REQUEST" => "false",
-                                    "HTTP_HX_PROMPT" => "Yes",
                                     "HTTP_HX_REQUEST" => "true",
-                                    "HTTP_HX_TARGET" => "test",
-                                    "HTTP_HX_TRIGGER_NAME" => "save",
-                                    "HTTP_HX_TRIGGER" => "test"
+                                    "HTTP_HX_REQUEST_TYPE" => "partial",
+                                    "HTTP_HX_SOURCE" => "button",
+                                    "HTTP_HX_TARGET" => "test"
+
       expect(request).to eq(
         described_class[
           boosted: "true",
           current_url: "/test",
           history_restore_request: "false",
-          prompt: "Yes",
           request: "true",
-          target: "test",
-          trigger_name: "save",
-          trigger: "test"
+          request_type: "partial",
+          source: "button",
+          target: "test"
         ]
       )
     end
@@ -39,7 +38,7 @@ RSpec.describe HTMX::Headers::Request do
 
   describe ".key_for" do
     it "answers key for header" do
-      expect(described_class.key_for("HTTP_HX_TRIGGER")).to eq(:trigger)
+      expect(described_class.key_for("HTTP_HX_TARGET")).to eq(:target)
     end
 
     it "fails with invalid key" do
@@ -50,7 +49,7 @@ RSpec.describe HTMX::Headers::Request do
 
   describe ".header_for" do
     it "answers header for key" do
-      expect(described_class.header_for(:trigger)).to eq("HTTP_HX_TRIGGER")
+      expect(described_class.header_for(:target)).to eq("HTTP_HX_TARGET")
     end
 
     it "fails with invalid key" do
@@ -66,11 +65,10 @@ RSpec.describe HTMX::Headers::Request do
           boosted: nil,
           current_url: nil,
           history_restore_request: nil,
-          prompt: nil,
           request: nil,
-          target: nil,
-          trigger_name: nil,
-          trigger: nil
+          request_type: nil,
+          source: nil,
+          target: nil
         ]
       )
     end
@@ -83,20 +81,6 @@ RSpec.describe HTMX::Headers::Request do
 
     it "answers false when disabled" do
       expect(request.boosted?).to be(false)
-    end
-  end
-
-  describe "#confirmed?" do
-    it "answers true when prompt is truthy" do
-      expect(described_class[prompt: "Yes"].confirmed?).to be(true)
-    end
-
-    it "answers false when prompt is nil" do
-      expect(request.confirmed?).to be(false)
-    end
-
-    it "answers false when prompt is falsey" do
-      expect(described_class[prompt: "nope"].confirmed?).to be(false)
     end
   end
 

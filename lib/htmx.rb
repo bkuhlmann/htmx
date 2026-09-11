@@ -15,11 +15,10 @@ module HTMX
     boosted: "HTTP_HX_BOOSTED",
     current_url: "HTTP_HX_CURRENT_URL",
     history_restore_request: "HTTP_HX_HISTORY_RESTORE_REQUEST",
-    prompt: "HTTP_HX_PROMPT",
     request: "HTTP_HX_REQUEST",
-    target: "HTTP_HX_TARGET",
-    trigger_name: "HTTP_HX_TRIGGER_NAME",
-    trigger: "HTTP_HX_TRIGGER"
+    request_type: "HTTP_HX_REQUEST_TYPE",
+    source: "HTTP_HX_SOURCE",
+    target: "HTTP_HX_TARGET"
   }.freeze
 
   RESPONSE_MAP = {
@@ -28,11 +27,10 @@ module HTMX
     redirect: "HX-Redirect",
     refresh: "HX-Refresh",
     replace_url: "HX-Replace-Url",
+    reselect: "HX-Reselect",
     reswap: "HX-Reswap",
     retarget: "HX-Retarget",
-    trigger: "HX-Trigger",
-    trigger_after_settle: "HX-Trigger-After-Settle",
-    trigger_after_swap: "HX-Trigger-After-Swap"
+    trigger: "HX-Trigger"
   }.freeze
 
   def self.loader registry = Zeitwerk::Registry

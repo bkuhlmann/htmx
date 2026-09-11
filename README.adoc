@@ -26,7 +26,6 @@ ____
 The goal of [htmx] is not less JavaScript, but less code, more readable and hypermedia-friendly code.
 ____
 
-
 This gem provides native Ruby support for the {htmx_link} JavaScript library so you can build sophisticated web applications using pure Hypermedia REST APIs while avoiding unnecessary bloat and complexity common with the JavaScript ecosystem. By building upon the original foundations of Hypermedia REST APIs, you can build rich web applications with no additional JavaScript!
 
 💡 This is used with the {hanamismith_link} gem when building {hanami_link} applications.
@@ -219,12 +218,9 @@ headers = HTMX.request "HTTP_HX_BOOSTED" => "true",
                        "HTTP_HX_TRIGGER" => "demo"
 
 headers.boosted?                  # true
-headers.confirmed?                # true
 headers.history_restore_request?  # false
 headers.request?                  # true
 ----
-
-Use of `#confirmed?` is the only unique predicate method since it answers a boolean based on the truthiness of the `HTTP_HX_PROMPT` header. For further details, see `String#truthy?` as provided by the link:https://alchemists.io/projects/refinements#_truthy[Refinements] gem.
 
 Due to `HTML.request` delegating to the `HTMX::Headers::Request`, this means you can use the object directly. Specifically, you can obtain the record, key, or header depending on your needs. Example:
 

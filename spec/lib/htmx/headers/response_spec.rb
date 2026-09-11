@@ -12,11 +12,10 @@ RSpec.describe HTMX::Headers::Response do
                                      "HX-Redirect" => "/test",
                                      "HX-Refresh" => "true",
                                      "HX-Replace-Url" => "/test",
+                                     "HX-Reselect" => "#test",
                                      "HX-Reswap" => "none",
                                      "HX-Retarget" => ".test",
-                                     "HX-Trigger" => "test",
-                                     "HX-Trigger-After-Settle" => "test",
-                                     "HX-Trigger-After-Swap" => "test"
+                                     "HX-Trigger" => "test"
 
       expect(response).to eq(
         described_class[
@@ -25,11 +24,10 @@ RSpec.describe HTMX::Headers::Response do
           redirect: "/test",
           refresh: "true",
           replace_url: "/test",
+          reselect: "#test",
           reswap: "none",
           retarget: ".test",
-          trigger: "test",
-          trigger_after_settle: "test",
-          trigger_after_swap: "test"
+          trigger: "test"
         ]
       )
     end
@@ -71,11 +69,10 @@ RSpec.describe HTMX::Headers::Response do
           redirect: nil,
           refresh: nil,
           replace_url: nil,
+          reselect: nil,
           reswap: nil,
           retarget: nil,
-          trigger: nil,
-          trigger_after_settle: nil,
-          trigger_after_swap: nil
+          trigger: nil
         ]
       )
     end

@@ -27,17 +27,17 @@ RSpec.describe HTMX do
 
   describe ".request" do
     it "answers request header data" do
-      result = described_class.request "HTTP_HX_BOOSTED" => "true", "HTTP_HX_PROMPT" => "Yes"
-      expect(result).to eq(HTMX::Headers::Request[boosted: "true", prompt: "Yes"])
+      result = described_class.request "HTTP_HX_BOOSTED" => "true", "HTTP_HX_SOURCE" => "button"
+      expect(result).to eq(HTMX::Headers::Request[boosted: "true", source: "button"])
     end
   end
 
   describe ".request!" do
     it "mutates request headers" do
       headers = {}
-      described_class.request! headers, boosted: true, prompt: "Yes"
+      described_class.request! headers, boosted: true, source: "button"
 
-      expect(headers).to eq("HTTP_HX_BOOSTED" => true, "HTTP_HX_PROMPT" => "Yes")
+      expect(headers).to eq("HTTP_HX_BOOSTED" => true, "HTTP_HX_SOURCE" => "button")
     end
 
     it "mutates request headers by passing unknown keys through" do

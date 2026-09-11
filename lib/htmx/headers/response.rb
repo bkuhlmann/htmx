@@ -17,11 +17,10 @@ module HTMX
                      redirect: nil,
                      refresh: nil,
                      replace_url: nil,
+                     reselect: nil,
                      reswap: nil,
                      retarget: nil,
-                     trigger: nil,
-                     trigger_after_settle: nil,
-                     trigger_after_swap: nil
+                     trigger: nil
         super
       end
 
