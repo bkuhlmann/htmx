@@ -3,12 +3,8 @@
 :figure-caption!:
 
 :data_link: link:https://alchemists.io/articles/ruby_data[Data]
-:hanami_link: link:https://hanamirb.org[Hanami]
-:hanami_views_link: link:https://alchemists.io/articles/hanami_views[Hanami Views]
-:hanamismith_link: link:https://alchemists.io/projects/hanamismith[Hanamismith]
-:htmx_link: link:https://htmx.org[htmx]
+:htmx_link: link:https://four.htmx.org[htmx]
 :hypermedia_systems_link: link:https://hypermedia.systems[Hypermedia Systems]
-:roda_link: link:http://roda.jeremyevans.net[Roda]
 
 = HTMX
 
@@ -28,15 +24,13 @@ ____
 
 This gem provides native Ruby support for the {htmx_link} JavaScript library so you can build sophisticated web applications using pure Hypermedia REST APIs while avoiding unnecessary bloat and complexity common with the JavaScript ecosystem. By building upon the original foundations of Hypermedia REST APIs, you can build rich web applications with no additional JavaScript!
 
-💡 This is used with the {hanamismith_link} gem when building {hanami_link} applications.
-
 toc::[]
 
 == Features
 
 - Augments the {htmx_link} JavaScript library.
-- Speeds up {htmx_link} development.
-- Compatible with {hanami_link}, {roda_link}, and other web frameworks.
+- Enhances {htmx_link} development.
+- Compatible with any web framework.
 
 == Requirements
 
@@ -78,73 +72,50 @@ require "htmx"
 
 == Usage
 
-One of the first tasks to tackle, when working with the {htmx_link} library, is building htmx specific HTML attributes. This can be accomplished by using the `.[]` method. For example, when implementing a {hanami_views_link} part, you could use the following:
+One of the first tasks, when working with the {htmx_link} library, is building htmx specific HTML attributes. This can be accomplished by using the `.[]` method. Example:
 
 [source,ruby]
 ----
-tag.button(
-  "Delete",
-  class: "button decline",
-  type: "submit",
-  **HTMX[target: "closest .task", delete: "/tasks/#{value.id}"]
-)
+HTMX[target: "closest .task", delete: "/tasks/1"]
+
+# {
+#   "data-hx-target" => "closest .task",
+#   "data-hx-delete" => "/tasks/1"
+# }
 ----
 
-The above would produce the following:
-
-[source,html]
-----
-<button class="button decline" type="submit" hx-target="closest .task" hx-delete="/tasks/1">
-  Delete
-</button>
-----
-
-Notice the appropriate htmx `hx-target` and `hx-delete` attributes are built which are compatible with the {htmx_link} library while not having to manually prefix each one of these attributes with the `hx-` prefix. You can use symbols, strings, or a mix of both as well.
+Notice the appropriate htmx `+data-hx*+` attributes are built which are compatible with the {htmx_link} library while not having to manually prefix each one of these attributes with the `hx-data-` prefix. You can use symbols, strings, or a mix of both as well.
 
 === HTML Attribute Prefixes
 
-As shown above, building htmx attributes takes minimal effort but if you'd prefer the HTML `data-` prefix, which the {htmx_link} library supports, you can customize by using the following:
+As shown above, building htmx attributes takes minimal effort but if you'd prefer to only use the HTML `hx-` prefix, which the {htmx_link} library supports, you can customize by using the following:
 
 [source,ruby]
 ----
-prefixer = HTMX::Prefixer.new "data-hx"
+prefixer = HTMX::Prefixer.new "hx"
+prefixer.call(target: "closest .task", delete: "/tasks/1")
 
-tag.button(
-  "Delete",
-  class: "button decline",
-  type: "submit",
-  **prefixer.call(target: "closest .task", delete: "/tasks/#{value.id}")
-)
+# {
+#   "hx-target" => "closest .task",
+#   "hx-delete" => "/tasks/1"
+# }
 ----
 
-This will produce the following HTML code:
-
-[source,html]
-----
-<button class="button decline"
-        type="submit"
-        data-hx-target="closest .task"
-        data-hx-delete="/tasks/1"
->
-  Delete
-</button>
-----
-
-As you can see, the `data-hx-target` and `data-hx-delete` keys are used. These are definitely more verbose than the `hx-` keys. By the way, the `HTMX::Prefixer` is called when using the htmx `.[]` as shown earlier. This means the following are equivalent:
+As you can see, only `+hx-*+` keys are produced. By the way, the `HTMX::Prefixer` is called when using the htmx `.[]` as shown earlier. This means the following are equivalent:
 
 [source,ruby]
 ----
 HTMX[delete: "/tasks/1"]
 HTMX::Prefixer.new.call delete: "/tasks/1"
-HTMX::Prefixer.new("hx").call delete: "/tasks/1"
+HTMX::Prefixer.new("data-hx").call delete: "/tasks/1"
 ----
 
 All three of the above will produce the same output which means you'll most likely want to use the `.[]` method since it has the shortest syntax. If you attempt to use an unsupported prefix, you'll get an error:
 
 [source,ruby]
 ----
-HTMX::Prefixer.new "bogus"
-# Invalid prefix: "bogus". Use: "hx" or "data-hx". (HTMX::Error)
+HTMX::Prefixer.new :bogus
+# Invalid prefix: :bogus. Use: "hx" or "data-hx". (HTMX::Error)
 ----
 
 Some {htmx_link} attributes use dashes. For those situations, you can use strings for keys or underscored symbols to produce the correct htmx syntax. Here's an example using both a string and symbol for keys:
@@ -152,7 +123,11 @@ Some {htmx_link} attributes use dashes. For those situations, you can use string
 [source,ruby]
 ----
 HTMX["swap-oob" => true, push_url: "/demo/123"]
-# {"hx-swap-oob"=>true, "hx-push-url"=>"/demo/123"}
+
+# {
+#   "data-hx-swap-oob" => true,
+#   "data-hx-push-url" => "/demo/123"
+# }
 ----
 
 === HTTP Headers
@@ -167,14 +142,14 @@ The request object allows you to obtain a {data_link} object to interact with wh
 ----
 HTMX.request
 
-# <data HTMX::Headers::Request boosted=nil,
-#                              current_url=nil,
-#                              history_restore_request=nil,
-#                              prompt=nil,
-#                              request=nil,
-#                              target=nil,
-#                              trigger_name=nil,
-#                              trigger=nil
+# #<data HTMX::Headers::Request:0x00000a10
+#   boosted = nil,
+#   current_url = nil,
+#   history_restore_request = nil,
+#   request = nil,
+#   request_type = nil,
+#   source = nil,
+#   target = nil
 # >
 ----
 
@@ -185,20 +160,19 @@ Notice you get a {data_link} instance where all members have the `HX-` prefix re
 HTMX.request "HTTP_HX_BOOSTED" => "true",
              "HTTP_HX_CURRENT_URL" => "/demo",
              "HTTP_HX_HISTORY_RESTORE_REQUEST" => "false",
-             "HTTP_HX_PROMPT" => "Yes",
              "HTTP_HX_REQUEST" => "true",
-             "HTTP_HX_TARGET" => "demo",
-             "HTTP_HX_TRIGGER_NAME" => "save",
+             "HTTP_HX_REQUEST_TYPE" => "partial",
+             "HTTP_HX_SOURCE" => "button",
              "HTTP_HX_TRIGGER" => "demo"
 
-# <data HTMX::Headers::Request boosted="true",
-#                              current_url="/demo",
-#                              history_restore_request="false",
-#                              prompt="Yes",
-#                              request="true",
-#                              target="demo",
-#                              trigger_name="save",
-#                              trigger="demo"
+# #<data HTMX::Headers::Request:0x00000a80
+#   boosted = "true",
+#   current_url = "/demo",
+#   history_restore_request = "false",
+#   request = "true",
+#   request_type = "partial",
+#   source = "button",
+#   target = nil
 # >
 ----
 
@@ -211,10 +185,9 @@ As an added convenience, you can use predicate methods for boolean values. Examp
 headers = HTMX.request "HTTP_HX_BOOSTED" => "true",
                        "HTTP_HX_CURRENT_URL" => "/demo",
                        "HTTP_HX_HISTORY_RESTORE_REQUEST" => "false",
-                       "HTTP_HX_PROMPT" => "Yes",
                        "HTTP_HX_REQUEST" => "true",
-                       "HTTP_HX_TARGET" => "demo",
-                       "HTTP_HX_TRIGGER_NAME" => "save",
+                       "HTTP_HX_REQUEST_TYPE" => "partial",
+                       "HTTP_HX_SOURCE" => "button",
                        "HTTP_HX_TRIGGER" => "demo"
 
 headers.boosted?                  # true
@@ -222,7 +195,7 @@ headers.history_restore_request?  # false
 headers.request?                  # true
 ----
 
-Due to `HTML.request` delegating to the `HTMX::Headers::Request`, this means you can use the object directly. Specifically, you can obtain the record, key, or header depending on your needs. Example:
+Due to the `HTML.request` delegating to the `HTMX::Headers::Request`, this means you can use the object directly. Specifically, you can obtain the record, key, or header depending on your needs. Example:
 
 [source,ruby]
 ----
@@ -237,14 +210,14 @@ Should you not want to use `HTMX::Headers::Request`, you can use the request pre
 ----
 headers = {}
 
-HTMX.request! headers, boosted: true, prompt: "Yes"
-# {"HTTP_HX_BOOSTED" => true, "HTTP_HX_PROMPT" => "Yes"}
-
-HTMX.request? headers, :prompt, "Yes"  # true
-HTMX.request? headers, :prompt, "On"   # false
+HTMX.request! headers, boosted: true, source: "button"
+# {
+#   "HTTP_HX_BOOSTED" => true,
+#   "HTTP_HX_SOURCE" => "button"
+# }
 ----
 
-💡 `HTMX.request!` is designed to mutate your original headers. Unknown attributes are merged as is.
+💡 `HTMX.request!` mutates your original headers. Unknown attributes are merged as is.
 
 ==== Responses
 
@@ -254,16 +227,16 @@ The response object allows you to obtain a {data_link} object to interact with w
 ----
 HTMX.response
 
-# <data HTMX::Headers::Response location=nil,
-#                               push_url=nil,
-#                               redirect=nil,
-#                               refresh=nil,
-#                               replace_url=nil,
-#                               reswap=nil,
-#                               retarget=nil,
-#                               trigger=nil,
-#                               trigger_after_settle=nil,
-#                               trigger_after_swap=nil
+# #<data HTMX::Headers::Response:0x00001830
+#   location = nil,
+#   push_url = nil,
+#   redirect = nil,
+#   refresh = nil,
+#   replace_url = nil,
+#   reselect = nil,
+#   reswap = nil,
+#   retarget = nil,
+#   trigger = nil
 # >
 ----
 
@@ -276,22 +249,21 @@ HTMX.response "HX-Location" => "/",
               "HX-Redirect" => "/demo",
               "HX-Refresh" => "true",
               "HX-Replace-Url" => "/demo",
+              "HX-Reselect" => "#demo",
               "HX-Reswap" => "none",
               "HX-Retarget" => ".demo",
-              "HX-Trigger" => "demo",
-              "HX-Trigger-After-Settle" => "demo",
-              "HX-Trigger-After-Swap" => "demo"
+              "HX-Trigger" => "demo"
 
-# <data HTMX::Headers::Response location="/",
-#                               push_url="/demo",
-#                               redirect="/demo",
-#                               refresh="true",
-#                               replace_url="/demo",
-#                               reswap="none",
-#                               retarget=".demo",
-#                               trigger="demo",
-#                               trigger_after_settle="demo",
-#                               trigger_after_swap="demo"
+# #<data HTMX::Headers::Response:0x00001850
+#   location = "/",
+#   push_url = "/demo",
+#   redirect = "/demo",
+#   refresh = "true",
+#   replace_url = "/demo",
+#   reselect = "#demo",
+#   reswap = "none",
+#   retarget = ".demo",
+#   trigger = "demo"
 # >
 ----
 
@@ -321,14 +293,17 @@ Should you not want to use `HTMX::Headers::Response`, you can use the response p
 ----
 headers = {}
 
-HTMX.response! headers, location: "/", push_url: "/test"
-# {"HX-Location" => "/", "HX-Push-Url" => "/test"}
+HTMX.response! headers, location: "/", push_url: "/demo"
+# {
+#   "HX-Location" => "/",
+#   "HX-Push-Url" => "/demo"
+# }
 
-HTMX.response? headers, :push_url, "/test"   # true
+HTMX.response? headers, :push_url, "/demo"   # true
 HTMX.response? headers, :push_url, "/other"  # false
 ----
 
-💡 `HTMX.response!` is designed to mutate your original headers. Unknown attributes are merged as is.
+💡 `HTMX.response!` mutates your original headers. Unknown attributes are merged as is.
 
 === Errors
 
