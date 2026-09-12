@@ -9,7 +9,7 @@ module HTMX
 
     ALLOWED = %w[hx data-hx].freeze
 
-    def initialize default = "hx", allowed: ALLOWED
+    def initialize default = "data-hx", allowed: ALLOWED
       @default = default
       @allowed = allowed
       validate
