@@ -5,6 +5,12 @@ exclude_paths:
 detectors:
   LongParameterList:
     enabled: false
+  FeatureEnvy:
+    exclude:
+      - HTMX::Configuration::Builder#dump
   ModuleInitialize:
     exclude:
-      - "HTMX::Headers"
+      - HTMX::Headers
+  NilCheck:
+    exclude:
+      - HTMX::Configuration::Builder#format_with
