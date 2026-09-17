@@ -55,8 +55,12 @@ RSpec.describe HTMX do
   describe ".request?" do
     let(:headers) { {"HTTP_HX_CURRENT_URL" => "/test"} }
 
-    it "answers true when value matches" do
+    it "answers true when string matches" do
       expect(described_class.request?(headers, :current_url, "/test")).to be(true)
+    end
+
+    it "answers true when regular expression matches" do
+      expect(described_class.request?(headers, :current_url, /est/)).to be(true)
     end
 
     it "answers false when value doesn't match" do
@@ -94,8 +98,12 @@ RSpec.describe HTMX do
   describe ".response?" do
     let(:headers) { {"HX-Push-Url" => "/test"} }
 
-    it "answers true when value matches" do
+    it "answers true when string matches" do
       expect(described_class.response?(headers, :push_url, "/test")).to be(true)
+    end
+
+    it "answers true when regular expression matches" do
+      expect(described_class.response?(headers, :push_url, /est/)).to be(true)
     end
 
     it "answers false when value doesn't match" do

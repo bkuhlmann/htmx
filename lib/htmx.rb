@@ -46,7 +46,10 @@ module HTMX
 
   def self.request!(headers, **attributes) = headers.merge! attributes.transform_keys!(REQUEST_MAP)
 
-  def self.request?(headers, key, value) = headers[REQUEST_MAP[key]] == value
+  def self.request? headers, key, value
+    resolved_value = headers[REQUEST_MAP[key]]
+    value.is_a?(Regexp) ? resolved_value.match?(value) : resolved_value == value
+  end
 
   def self.response(**) = Headers::Response.for(**)
 
@@ -54,5 +57,8 @@ module HTMX
     headers.merge! attributes.transform_keys!(RESPONSE_MAP)
   end
 
-  def self.response?(headers, key, value) = headers[RESPONSE_MAP[key]] == value
+  def self.response? headers, key, value
+    resolved_value = headers[RESPONSE_MAP[key]]
+    value.is_a?(Regexp) ? resolved_value.match?(value) : resolved_value == value
+  end
 end

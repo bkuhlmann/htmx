@@ -215,6 +215,11 @@ HTMX.request! headers, boosted: true, source: "button"
 #   "HTTP_HX_BOOSTED" => true,
 #   "HTTP_HX_SOURCE" => "button"
 # }
+
+HTMX.request? headers, :source, "button"  # true
+HTMX.request? headers, :source, /but/     # true
+HTMX.request? headers, :source, "input"   # false
+HTMX.request? headers, :source, /input/   # false
 ----
 
 💡 `HTMX.request!` mutates your original headers. Unknown attributes are merged as is.
@@ -300,7 +305,9 @@ HTMX.response! headers, location: "/", push_url: "/demo"
 # }
 
 HTMX.response? headers, :push_url, "/demo"   # true
-HTMX.response? headers, :push_url, "/other"  # false
+HTMX.response? headers, :push_url, /emo/     # true
+HTMX.response? headers, :push_url, "/about"  # false
+HTMX.response? headers, :push_url, /about/   # false
 ----
 
 💡 `HTMX.response!` mutates your original headers. Unknown attributes are merged as is.
