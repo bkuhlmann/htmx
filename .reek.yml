@@ -8,3 +8,5 @@ detectors:
   ModuleInitialize:
     exclude:
       - "HTMX::Headers"
+  UnusedParameters:
+    enabled: false
